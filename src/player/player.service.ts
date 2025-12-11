@@ -3,12 +3,11 @@ import {
   Events,
   Player,
   Shoukaku,
-  Track,
-  createDiscordJSOptions,
 } from 'shoukaku';
 import { InteractionService } from 'src/interaction/interaction.service';
 import { EventEmitter } from 'events';
-import { DiscordConfigService } from 'src/discord-config/discord-config.service';
+import { DiscordConfigService } from 'src/config/discord-config/discord-config.service';
+import { LavalinkConfigService } from 'src/config/lavalink-config/lavalink-config.service';
 
 @Injectable()
 export class PlayerService extends EventEmitter {
@@ -16,6 +15,7 @@ export class PlayerService extends EventEmitter {
 
   constructor(
     private discordConfigService: DiscordConfigService,
+    private lavalinkConfigService: LavalinkConfigService,
     private readonly interactionService: InteractionService,
   ) {
     super();
@@ -24,9 +24,9 @@ export class PlayerService extends EventEmitter {
         userId: this.discordConfigService.clientId,
         nodes: [
           {
-            name: 'Localhost',
-            url: 'localhost:2333',
-            auth: 'youshallnotpass',
+            name: this.lavalinkConfigService.nodeName,
+            url: this.lavalinkConfigService.nodeUrl,
+            auth: this.lavalinkConfigService.nodePassword,
           },
         ],
         connectorOptions: this.createConnectorOptions(),
