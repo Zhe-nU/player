@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { InteractionService } from './interaction.service';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { RmqConfigService } from 'src/rmq-config/rmq-config.service';
+import { RmqConfigService } from 'src/config/rmq-config/rmq-config.service';
 
 @Module({
   imports: [
