@@ -57,10 +57,10 @@ jobs:
 
     - name: Build and Deploy
       env:
-        DEPLOYMENT_KEY: ${{ secrets.DEPLOYMENT_KEY }}
-        DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
-        DISCORD_CLIENT_ID: ${{ vars.DISCORD_CLIENT_ID }}
-        DISCORD_DEVELOPMENT_GUILD_ID: ${{ vars.DISCORD_DEVELOPMENT_GUILD_ID }}
+        CLIENT_ID: ${{ vars.CLIENT_ID }}
+        LAVALINK_NODE_NAME: ${{ secrets.LAVALINK_NODE_NAME }}
+        LAVALINK_NODE_PASSWORD: ${{ vars.LAVALINK_NODE_PASSWORD }}
+        LAVALINK_NODE_URL: ${{ vars.LAVALINK_NODE_URL }}
         RMQ_URL: ${{ secrets.RMQ_URL }}
       run: |
         docker compose -f docker-compose-dev.yaml up -d --build
