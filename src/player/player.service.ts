@@ -1,13 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import {
-  Events,
-  Player,
-  Shoukaku,
-} from 'shoukaku';
-import { InteractionService } from 'src/interaction/interaction.service';
 import { EventEmitter } from 'events';
+import { Events, Player, Shoukaku } from 'shoukaku';
 import { DiscordConfigService } from 'src/config/discord-config/discord-config.service';
 import { LavalinkConfigService } from 'src/config/lavalink-config/lavalink-config.service';
+import { InteractionService } from 'src/interaction/interaction.service';
 
 @Injectable()
 export class PlayerService extends EventEmitter {
@@ -36,7 +32,7 @@ export class PlayerService extends EventEmitter {
 
     this.shoukaku.on(Events.Error, console.error);
 
-    this.shoukaku.connect();
+    void this.shoukaku.connect();
   }
 
   async joinChannel(guildId: string, channelId: string) {
@@ -54,13 +50,13 @@ export class PlayerService extends EventEmitter {
       });
 
       const player = new Player(connection);
-      player.playTrack({ track: { encoded: data[0].encoded } });
+      await player.playTrack({ track: { encoded: data[0].encoded } }); // eslint-disable-line
     } catch (error) {
       console.log(error);
     }
   }
 
-  async listenEvent(payload: unknown) {
+  listenEvent(payload: unknown) {
     return this.emit('listenEvent', payload);
   }
 
@@ -71,7 +67,7 @@ export class PlayerService extends EventEmitter {
         // console.log('Sending packet to shard', shardId, payload);
         return this.interactionService.sendPacket(payload);
       },
-      listenEvent: (_: any, handler) => {
+      listenEvent: (_: any, handler: (...args: any[]) => void) => {
         // this.on('listenEvent', (payload) => console.log(payload));
         return void this.on('listenEvent', handler);
       },

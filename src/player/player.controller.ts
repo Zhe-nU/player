@@ -8,13 +8,13 @@ export class PlayerController {
 
   @MessagePattern({ cmd: 'joinChannel' })
   async joinChannel(data: { guildId: string; channelId: string }) {
-    this.playerService.joinChannel(data.guildId, data.channelId);
+    await this.playerService.joinChannel(data.guildId, data.channelId);
 
     return true;
   }
 
   @MessagePattern({ cmd: 'listenEvent' })
-  async listenEvent(payload: unknown) {
+  listenEvent(payload: unknown) {
     // console.log('listenEvent', payload);
     this.playerService.listenEvent(payload);
   }

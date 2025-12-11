@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
+import { InteractionModule } from 'src/interaction/interaction.module';
 import { PlayerController } from './player.controller';
 import { PlayerService } from './player.service';
-import { InteractionModule } from 'src/interaction/interaction.module';
 
 @Module({
   imports: [InteractionModule],
