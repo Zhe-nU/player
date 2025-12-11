@@ -59,8 +59,8 @@ jobs:
       env:
         CLIENT_ID: ${{ vars.CLIENT_ID }}
         LAVALINK_NODE_NAME: ${{ secrets.LAVALINK_NODE_NAME }}
-        LAVALINK_NODE_PASSWORD: ${{ vars.LAVALINK_NODE_PASSWORD }}
-        LAVALINK_NODE_URL: ${{ vars.LAVALINK_NODE_URL }}
+        LAVALINK_NODE_PASSWORD: ${{ secrets.LAVALINK_NODE_PASSWORD }}
+        LAVALINK_NODE_URL: ${{ secrets.LAVALINK_NODE_URL }}
         RMQ_URL: ${{ secrets.RMQ_URL }}
       run: |
         docker compose -f docker-compose-dev.yaml up -d --build
