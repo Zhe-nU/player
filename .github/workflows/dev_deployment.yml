@@ -24,9 +24,10 @@ jobs:
     - name: lint
       run: |
         docker compose -f docker-compose-lint.yaml up
-        docker compose -f docker-compose-check.yaml down --remove-orphans
+        docker compose -f docker-compose-lint.yaml down --remove-orphans
 
   test:
+    needs: lint
     runs-on: ubuntu-latest
 
     strategy:
@@ -43,7 +44,7 @@ jobs:
     - name: test
       run: |
         docker compose -f docker-compose-test.yaml up
-        docker compose -f docker-compose-check.yaml down --remove-orphans
+        docker compose -f docker-compose-test.yaml down --remove-orphans
 
   build:
     needs: test
