@@ -1,0 +1,65 @@
+name: DEV
+
+on:
+  push:
+    branches: [ "dev" ]
+  pull_request:
+    branches: [ "dev" ]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [24.x]
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: lint
+      run: |
+        docker compose -f docker-compose-lint.yml up
+        docker compose -f docker-compose-check.yaml down --remove-orphans
+
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [24.x]
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: test
+      run: |
+        docker compose -f docker-compose-test.yml up
+        docker compose -f docker-compose-check.yaml down --remove-orphans
+
+  build:
+    needs: test
+    runs-on: self-hosted
+
+    environment: DEV
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Build and Deploy
+      env:
+        DEPLOYMENT_KEY: ${{ secrets.DEPLOYMENT_KEY }}
+        DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
+        DISCORD_CLIENT_ID: ${{ vars.DISCORD_CLIENT_ID }}
+        DISCORD_DEVELOPMENT_GUILD_ID: ${{ vars.DISCORD_DEVELOPMENT_GUILD_ID }}
+        RMQ_URL: ${{ secrets.RMQ_URL }}
+      run: |
+        docker compose -f docker-compose-dev.yml up -d --build

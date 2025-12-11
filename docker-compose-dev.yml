@@ -1,0 +1,12 @@
+services:
+  interaction:
+    build:
+      context: .
+      dockerfile: ./.docker/dockerfile.dev
+    environment:
+      - CLIENT_ID=${CLIENT_ID}
+      - LAVALINK_NODE_NAME=${LAVALINK_NODE_NAME}
+      - LAVALINK_NODE_PASSWORD=${LAVALINK_NODE_PASSWORD}
+      - LAVALINK_NODE_URL=${LAVALINK_NODE_URL}
+      - RMQ_URL=${RMQ_URL}
+      - NODE_ENV=development
