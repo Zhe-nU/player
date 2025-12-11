@@ -23,7 +23,7 @@ jobs:
 
     - name: lint
       run: |
-        docker compose -f docker-compose-lint.yml up
+        docker compose -f docker-compose-lint.yaml up
         docker compose -f docker-compose-check.yaml down --remove-orphans
 
   test:
@@ -42,7 +42,7 @@ jobs:
 
     - name: test
       run: |
-        docker compose -f docker-compose-test.yml up
+        docker compose -f docker-compose-test.yaml up
         docker compose -f docker-compose-check.yaml down --remove-orphans
 
   build:
@@ -62,4 +62,4 @@ jobs:
         DISCORD_DEVELOPMENT_GUILD_ID: ${{ vars.DISCORD_DEVELOPMENT_GUILD_ID }}
         RMQ_URL: ${{ secrets.RMQ_URL }}
       run: |
-        docker compose -f docker-compose-dev.yml up -d --build
+        docker compose -f docker-compose-dev.yaml up -d --build
