@@ -8,7 +8,7 @@ async function bootstrap() {
     {
       transport: Transport.RMQ,
       options: {
-        urls: ['amqp://player:pass@localhost:5672/music-bot'],
+        urls: [process.env.RMQ_URL!],
         queue: 'player_queue',
         queueOptions: {
           durable: false,
