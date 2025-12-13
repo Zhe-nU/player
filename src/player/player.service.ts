@@ -36,24 +36,20 @@ export class PlayerService extends EventEmitter {
   }
 
   async joinChannel(guildId: string, channelId: string) {
-    try {
-      const node = this.shoukaku.getIdealNode();
-      if (!node) throw new Error('No available nodes');
+    const node = this.shoukaku.getIdealNode();
+    if (!node) throw new Error('No available nodes');
 
-      const res = await node.rest.resolve('ytsearch:yoasobi_idol');
-      const data = res.data;
+    const res = await node.rest.resolve('ytsearch:yoasobi_idol');
+    const data = res.data;
 
-      const connection = await this.shoukaku.joinVoiceChannel({
-        channelId,
-        guildId,
-        shardId: 0,
-      });
+    const connection = await this.shoukaku.joinVoiceChannel({
+      channelId,
+      guildId,
+      shardId: 0,
+    });
 
-      const player = new Player(connection);
-      await player.playTrack({ track: { encoded: data[0].encoded } }); // eslint-disable-line
-    } catch (error) {
-      console.log(error);
-    }
+    const player = new Player(connection);
+    await player.playTrack({ track: { encoded: data[0].encoded } }); // eslint-disable-line
   }
 
   listenEvent(payload: unknown) {
