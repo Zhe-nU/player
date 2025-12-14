@@ -1,10 +1,14 @@
 import { Controller } from '@nestjs/common';
-import { MessagePattern, Payload, RpcException } from '@nestjs/microservices';
+import { MessagePattern, Payload } from '@nestjs/microservices';
+import { ShoukakuService } from 'src/shoukaku/shoukaku.service';
 import { PlayerService } from './player.service';
 
 @Controller('player')
 export class PlayerController {
-  constructor(private readonly playerService: PlayerService) {}
+  constructor(
+    private readonly playerService: PlayerService,
+    private readonly shoukakuService: ShoukakuService,
+  ) {}
 
   @MessagePattern({ cmd: 'joinChannel' })
   async joinChannel(@Payload() data: { guildId: string; channelId: string }) {
@@ -14,7 +18,6 @@ export class PlayerController {
 
   @MessagePattern({ cmd: 'listenEvent' })
   listenEvent(payload: unknown) {
-    // console.log('listenEvent', payload);
-    this.playerService.listenEvent(payload);
+    this.shoukakuService.listenEvent(payload);
   }
 }

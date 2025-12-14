@@ -1,0 +1,1 @@
+export const SHOUKAKU_OPTIONS = 'SHOUKAKU_OPTIONS';
