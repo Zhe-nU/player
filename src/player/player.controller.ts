@@ -20,4 +20,16 @@ export class PlayerController {
   listenEvent(payload: unknown) {
     this.shoukakuService.listenEvent(payload);
   }
+
+  @MessagePattern({ cmd: 'playTrack' })
+  async playTrack(
+    @Payload() data: { guildId: string; channelId: string; query: string },
+  ) {
+    await this.playerService.playTrack(
+      data.guildId,
+      data.channelId,
+      data.query,
+    );
+    return { success: true };
+  }
 }
